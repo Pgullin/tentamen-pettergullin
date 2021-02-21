@@ -1,22 +1,43 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import StarwarsService from '../../shared/api/service/StarwarsService'
 
+
 export const Uppgift3 = () => {
-	const character = undefined
-	const count = 1
+
+	useEffect(() => {
+		getCharacterNameFromStarwarsAPI()
+		
+	})
+
+	const [character, setCharacter] = useState([])
+	const [count, setCount] = useState(1)
 
 	const getCharacterNameFromStarwarsAPI = async () => {
 		const { data } = await StarwarsService.getStarwarsCharacter(count)
+		setCharacter(data)
 	}
+
+	const getPreviousCharacter = () =>{
+if(count >1){
+	setCount(count-1)
+	displayCharacterName()
+}
+	}
+
+	const getNextCharacter = () =>{		
+			setCount(count + 1 )
+			displayCharacterName()		
+			}			
 
 	const buttons = () => {
 		return <div>
-			<button>Increment</button> <br />
-			<button>Decrement</button>
+			<button onClick={()=>getNextCharacter()}>Increment</button> <br />
+			<button onClick={()=>getPreviousCharacter()}>Decrement</button>
 		</div>
 	}
 
 	const displayCharacterName = () => {
+	
 		if (character || undefined) {
 			return <div>
 				<h2>{(character || undefined)?.name}</h2>
